@@ -8,6 +8,7 @@ packages = [{include = "hexlet_code"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+flask = "^3.0.0"
 
 
 [build-system]
