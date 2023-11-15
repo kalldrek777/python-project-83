@@ -4,8 +4,8 @@ version = "0.1.0"
 description = ""
 authors = ["gamid <kalldrek@yandex.ru>"]
 readme = "README.md"
-packages = [{include = "hexlet_code"}]
-
+packages = [{include = "python-project-83"}]
+# hexlet code
 [tool.poetry.dependencies]
 python = "^3.8"
 flask = "^3.0.0"
