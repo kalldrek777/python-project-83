@@ -144,8 +144,8 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-ena
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.8"
-content-hash = "8474654a64254eb621d2be363feb2d1addf7b504d050c19049a75447c80cdad5"
+python-versions = "^3.8.2"
+content-hash = "27fdead6b60d4c48a5bf7a253598372d7233e08f2861d52299d05fb21ef4e9fa"
 
 [metadata.files]
 blinker = [
