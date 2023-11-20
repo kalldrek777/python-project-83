@@ -6,7 +6,7 @@ authors = ["gamid <kalldrek@yandex.ru>"]
 
 [tool.poetry.dependencies]
 gunicorn = "^21.2.0"
-Flask = "^3.0.0"
+Flask = [{version="^3.0.0", python="empty"}]
 
 [tool.poetry.dev-dependencies]
 
