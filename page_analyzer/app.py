@@ -43,7 +43,12 @@ def new_url():
 
 @app.route('/urls')
 def all_urls():
-    return render_template('urls.html', urls=Urls.query.all())
+    return render_template('urls.html', urls=Urls.query.all().order_by('created_at'))
+
+
+@app.route('/url/<id>')
+def url_page(id):
+    return render_template('url.html', url=Urls.query.filter_by(id=id))
 
 
 if __name__ == "__main__":
