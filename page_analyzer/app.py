@@ -18,6 +18,10 @@ class Urls(db.Model):
         self.name = name
 
 
+with app.app_context():
+    db.create_all()
+
+
 @app.get('/')
 def index():
     url = []
@@ -38,7 +42,7 @@ def new_url():
     db.session.commit()
     flash('Success')
 
-    return redirect(url_for('index'))
+    return redirect(url_for('url_page', id=Urls.query.filter_by(name=data['url'])))
 
 
 @app.route('/urls')
@@ -52,6 +56,4 @@ def url_page(id):
 
 
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run()
