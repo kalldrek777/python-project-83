@@ -105,7 +105,7 @@ def check_url(id):
     response = requests.get(url.name)
 
     if response.ok is not True:
-        flash('bad')
+        flash('Произошла ошибка при проверке')
         redirect('url.html', url=url)
 
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -128,6 +128,7 @@ def check_url(id):
 
     flash('Страница успешно проверена')
     return render_template('url.html', url=url, checks_user=checks_user, true_date=true_date)
+
 
 if __name__ == "__main__":
     app.run()
