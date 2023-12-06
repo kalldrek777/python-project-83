@@ -9,7 +9,6 @@ from bs4 import BeautifulSoup
 
 
 app = Flask(__name__)
-app.secret_key = '9=fug1o36v)h1ir$s5@h%1#t@5&j67(vp73&g80(k^b%1n06)n'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 db = SQLAlchemy(app)
 
