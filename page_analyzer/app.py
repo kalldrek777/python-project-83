@@ -17,10 +17,14 @@ db = SQLAlchemy(app)
 class Urls(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255), nullable=False, unique=True)
-    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
 
     def __init__(self, name):
         self.name = name
+
+
+def true_date(time):
+    return str(time)[0:10]
 
 
 class Url_Checks(db.Model):
@@ -30,7 +34,7 @@ class Url_Checks(db.Model):
     h1 = db.Column(db.String(255), unique=False)
     title = db.Column(db.String(255), nullable=True, unique=False)
     description = db.Column(db.String(255), nullable=True, unique=False)
-    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
 
     def __init__(self, url_id, status_code, h1, title, description):
         self.url_id = url_id
@@ -81,14 +85,18 @@ def new_url():
 
 @app.route('/urls')
 def all_urls():
-    return render_template('urls.html', urls=Urls.query.order_by(desc('created_at')).all(), checks=Url_Checks.query, desc=desc('created_at'))
+    return render_template('urls.html', urls=Urls.query.order_by(desc('created_at')).all(),
+                           checks=Url_Checks.query, desc=desc('created_at'), true_date=true_date
+                           )
 
 
 @app.route('/url/<id>')
 def url_page(id):
     url = Urls.query.get(id)
     checks_user = Url_Checks.query.filter_by(url_id=url.id).order_by(desc('created_at')).all()
-    return render_template('url.html', url=Urls.query.get(id), checks_user=checks_user)
+    return render_template('url.html', url=Urls.query.get(id), checks_user=checks_user,
+                           true_date=true_date
+                           )
 
 
 @app.post('/urls/<id>/checks')
@@ -119,8 +127,7 @@ def check_url(id):
     checks_user = Url_Checks.query.filter_by(url_id=url.id).order_by(desc('created_at')).all()
 
     flash('Страница успешно проверена')
-    return render_template('url.html', url=url, checks_user=checks_user)
-
+    return render_template('url.html', url=url, checks_user=checks_user, true_date=true_date)
 
 if __name__ == "__main__":
     app.run()

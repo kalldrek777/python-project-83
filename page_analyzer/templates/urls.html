@@ -20,7 +20,7 @@
       <tr>
       <th>{{ url.id }}</th>
       <th><a href="{{ url_for('url_page', id=url.id) }}">{{ url.name }}</a></th>
-      <th>{{ checks.filter_by(url_id=url.id).order_by(desc).first().created_at }}</th>
+      <th>{{ true_date(checks.filter_by(url_id=url.id).order_by(desc).first().created_at)  }}</th>
       <th>{{ checks.filter_by(url_id=url.id).order_by(desc).first().status_code }}</th>
     </tr>
     {% endfor %}
