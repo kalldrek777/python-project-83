@@ -12,4 +12,4 @@ start:
 	poetry run gunicorn -w 5 -b 0.0.0.0:8000 page.analyzer.app:app
 
 build:
-	./build.sh
+	page_analyzer/build.sh
