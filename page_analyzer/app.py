@@ -10,8 +10,10 @@ from bs4 import BeautifulSoup
 
 
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+# app.secret_key = os.getenv('SECRET_KEY')
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.secret_key = '_pf3or4r^x0*tvss9ihp)=bff4(dnixz!0$cc7o=)gc-4pj1w$'
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://amethyst:b1FUh1N6F8osqDDzpIIugRqbKu8vC0Jg@dpg-cldpq9tlo5ps73f2p4pg-a.oregon-postgres.render.com/database_0p5m"
 db = SQLAlchemy(app)
 
 
@@ -65,7 +67,7 @@ def new_url():
     else:
         data_url = data['url']
 
-    errors = validate(data)
+    errors = validator.validate(data)
     if errors:
         flash(errors['name'])
         return render_template('index.html', errors=errors), 422

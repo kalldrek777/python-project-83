@@ -9,7 +9,7 @@ PORT ?= 8000
 #	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
 
 start:
-	poetry run gunicorn -w 5 -b 0.0.0.0:8000 page.analyzer.app:app
+	poetry run gunicorn -w 5 -b 0.0.0.0:8000 page_analyzer.app:app
 
 build:
 	page_analyzer/build.sh
