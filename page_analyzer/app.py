@@ -1,9 +1,8 @@
 import datetime
 from sqlalchemy import desc
 from flask import Flask, redirect, render_template, request, url_for, flash
-import os
 # from validator import validate
-import validator
+from . import validator
 from flask_sqlalchemy import SQLAlchemy
 import requests
 from bs4 import BeautifulSoup
