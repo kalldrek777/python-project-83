@@ -13,7 +13,7 @@ app = Flask(__name__)
 # app.secret_key = os.getenv('SECRET_KEY')
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.secret_key = '_pf3or4r^x0*tvss9ihp)=bff4(dnixz!0$cc7o=)gc-4pj1w$'
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://amethyst:b1FUh1N6F8osqDDzpIIugRqbKu8vC0Jg@dpg-cldpq9tlo5ps73f2p4pg-a.oregon-postgres.render.com/database_0p5m"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://amethyst:b1FUh1N6F8osqDDzpIIugRqbKu8vC0Jg@dpg-cldpq9tlo5ps73f2p4pg-a.oregon-postgres.render.com/database_0p5m"
 db = SQLAlchemy(app)
 
 
@@ -47,9 +47,9 @@ class Url_Checks(db.Model):
         self.description = description
 
 
-# with app.app_context():
+with app.app_context():
     # db.drop_all()
-    # db.create_all()
+    db.create_all()
 
 
 @app.get('/')
