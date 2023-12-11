@@ -49,11 +49,11 @@ class Url_Checks(db.Model):
         self.description = description
 
 
-# with app.app_context():
+with app.app_context():
     # db.drop_all()
     # sqlalchemy.schema.DropSchema(Url_Checks, cascade=True)
     # sqlalchemy.schema.DropSchema(Urls, cascade=)
-    # db.create_all()
+    db.create_all()
 
 
 @app.get('/')
@@ -129,7 +129,10 @@ def check_url(id):
 
     descriprion = soup.find('meta', attrs={'name': 'description'})
     print(descriprion)
-    tags['content'] = descriprion.get('content')
+    try:
+        tags['content'] = descriprion.get('content')
+    except:
+        tags['content'] = ""
 
     checks = Url_Checks(url_id=id, status_code=response.status_code, h1=tags['h1'], title=tags['title'],
                         description=tags['content'])
