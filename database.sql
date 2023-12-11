@@ -5,7 +5,7 @@ CREATE TABLE Urls (
 
 );
 
-CREATE TABLE Url_Checks (
+CREATE TABLE Url__Checks (
     id SERIAL PRIMARY KEY,
     url_id bigint REFERENCES urls (id),
     status_code integer,
