@@ -1,4 +1,6 @@
 import datetime
+
+import sqlalchemy.schema
 from sqlalchemy import desc
 from flask import Flask, redirect, render_template, request, url_for, flash
 # from validator import validate
@@ -47,9 +49,11 @@ class Url_Checks(db.Model):
         self.description = description
 
 
-with app.app_context():
+# with app.app_context():
     # db.drop_all()
-    db.create_all()
+    # sqlalchemy.schema.DropSchema(Url_Checks, cascade=True)
+    # sqlalchemy.schema.DropSchema(Urls, cascade=)
+    # db.create_all()
 
 
 @app.get('/')
@@ -128,7 +132,7 @@ def check_url(id):
     tags['content'] = descriprion.get('content')
 
     checks = Url_Checks(url_id=id, status_code=response.status_code, h1=tags['h1'], title=tags['title'],
-                        description=tags['content'])
+                        description=tags['content'], cascade='all,delete')
     db.session.add(checks)
     db.session.commit()
     checks_user = Url_Checks.query.filter_by(url_id=url.id).order_by(desc('created_at')).all()
