@@ -5,6 +5,7 @@ from flask import Flask, redirect, render_template, request, url_for, flash
 from . import validator
 from flask_sqlalchemy import SQLAlchemy
 import requests
+from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 
 
@@ -59,12 +60,15 @@ def index():
 @app.post('/')
 def new_url():
     data = request.form.to_dict()
-    if len(data['url']) > 0:
-        data_url = data['url']
-        if data['url'][-1] == '/':
-            data_url = data['url'][0:-1]
-    else:
-        data_url = data['url']
+    url = urlparse(data['url'])
+    data_url = url.scheme + "://" + url.netloc
+    # if len(data['url']) > 0:
+    #     data_url = data['url']
+    #     if data['url'][-1] == '/':
+    #         data_url = data['url'][0:-1]
+    # else:
+    #     data_url = data['url']
+    print(data_url)
 
     errors = validator.validate(data)
     if errors:
@@ -104,11 +108,12 @@ def url_page(id):
 @app.post('/urls/<id>/checks')
 def check_url(id):
     url = Urls.query.get(id)
-    response = requests.get(url.name)
-
-    if response.ok is not True:
+    try:
+        response = requests.get(url.name)
+    except:
         flash('Произошла ошибка при проверке')
-        redirect('url.html', url=url)
+        # redirect('url.html', url=url, checks_user=Url_Checks.query.filter_by(url_id=url.id).order_by(desc('created_at')).all())
+        return redirect(url_for('url_page', id=id))
 
     soup = BeautifulSoup(response.text, 'html.parser')
     tags = {'h1': '', 'title': '', 'content': ''}

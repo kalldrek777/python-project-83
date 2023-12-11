@@ -4,6 +4,8 @@
 {% for message in get_flashed_messages() %}
     {% if message=='Страница успешно добавлена' or message=='Страница успешно проверена'%}
     <div style="margin-bottom:2rem" class="alert alert-success" role="alert">{{ message }}</div>
+    {% elif message=='Произошла ошибка при проверке' %}
+    <div style="margin-bottom:2rem" class="alert alert-danger" role="alert">{{ message }}</div>
     {% else %}
     <div style="margin-bottom:2rem" class="alert alert-info" role="alert">{{ message }}</div>
 {% endif %}
