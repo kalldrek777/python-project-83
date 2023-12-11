@@ -132,7 +132,7 @@ def check_url(id):
     tags['content'] = descriprion.get('content')
 
     checks = Url_Checks(url_id=id, status_code=response.status_code, h1=tags['h1'], title=tags['title'],
-                        description=tags['content'], cascade='all,delete')
+                        description=tags['content'])
     db.session.add(checks)
     db.session.commit()
     checks_user = Url_Checks.query.filter_by(url_id=url.id).order_by(desc('created_at')).all()

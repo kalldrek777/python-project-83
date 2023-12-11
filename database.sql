@@ -1,6 +1,3 @@
-DROP TABLE IF EXISTS Urls cascade;
-DROP TABLE IF EXISTS Url_Checks cascade;
-
 CREATE TABLE Urls (
     id SERIAL PRIMARY KEY,
     name varchar(255),
