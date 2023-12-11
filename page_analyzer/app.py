@@ -1,8 +1,8 @@
 import datetime
-
+import os
 import sqlalchemy.schema
 from sqlalchemy import desc
-from flask import Flask, redirect, render_template, request, url_for, flash
+from flask import Flask, redirect, render_template, request, url_for, flash, abort
 # from validator import validate
 from . import validator
 from flask_sqlalchemy import SQLAlchemy
@@ -16,6 +16,7 @@ app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.secret_key = '_pf3or4r^x0*tvss9ihp)=bff4(dnixz!0$cc7o=)gc-4pj1w$'
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://amethyst:b1FUh1N6F8osqDDzpIIugRqbKu8vC0Jg@dpg-cldpq9tlo5ps73f2p4pg-a.oregon-postgres.render.com/database_0p5m"
+TIMEOUT = int(os.getenv('EXTERNAL_REQUEST_TIMEOUT', 30))
 db = SQLAlchemy(app)
 
 
@@ -49,11 +50,11 @@ class Url_Checks(db.Model):
         self.description = description
 
 
-with app.app_context():
+# with app.app_context():
     # db.drop_all()
     # sqlalchemy.schema.DropSchema(Url_Checks, cascade=True)
     # sqlalchemy.schema.DropSchema(Urls, cascade=)
-    db.create_all()
+    # db.create_all()
 
 
 @app.get('/')
@@ -103,6 +104,8 @@ def all_urls():
 @app.route('/url/<id>')
 def url_page(id):
     url = Urls.query.get(id)
+    if not url:
+        abort(404)
     checks_user = Url_Checks.query.filter_by(url_id=url.id).order_by(desc('created_at')).all()
     return render_template('url.html', url=Urls.query.get(id), checks_user=checks_user,
                            true_date=true_date
@@ -112,11 +115,14 @@ def url_page(id):
 @app.post('/urls/<id>/checks')
 def check_url(id):
     url = Urls.query.get(id)
+    print(url.name)
+    # print(requests.get(url.name).status_code)
     try:
-        response = requests.get(url.name)
+        response = requests.get(url.name, timeout=TIMEOUT)
+        print(response.status_code)
+        response.raise_for_status()
     except:
         flash('Произошла ошибка при проверке')
-        # redirect('url.html', url=url, checks_user=Url_Checks.query.filter_by(url_id=url.id).order_by(desc('created_at')).all())
         return redirect(url_for('url_page', id=id))
 
     soup = BeautifulSoup(response.text, 'html.parser')
