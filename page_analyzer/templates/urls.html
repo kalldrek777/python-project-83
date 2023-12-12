@@ -19,11 +19,11 @@
     </thead>
     <tbody>
     {% for url in urls %}
-      <tr>
-      <th>{{ url.id }}</th>
-      <th><a href="{{ url_for('url_page', id=url.id) }}">{{ url.name }}</a></th>
-      <th>{{ true_date(checks.filter_by(url_id=url.id).order_by(desc).first().created_at)  }}</th>
-      <th>{{ checks.filter_by(url_id=url.id).order_by(desc).first().status_code }}</th>
+    <tr>
+      <td>{{ url.id }}</td>
+      <td><a href="{{ url_for('url_page', id=url.id) }}">{{ url.name }}</a></td>
+      <td>{{ true_date(checks.filter_by(url_id=url.id).order_by(desc).first().created_at)  }}</td>
+      <td>{{ checks.filter_by(url_id=url.id).order_by(desc).first().status_code }}</td>
     </tr>
     {% endfor %}
     </tbody>
