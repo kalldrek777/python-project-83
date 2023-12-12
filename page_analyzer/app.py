@@ -115,7 +115,6 @@ def url_page(id):
 def check_url(id):
     url = Urls.query.get(id)
     print(url.name)
-    # print(requests.get(url.name).status_code)
     try:
         response = requests.get(url.name, timeout=TIMEOUT)
         print(response.status_code)
