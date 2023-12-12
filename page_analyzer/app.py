@@ -67,12 +67,6 @@ def new_url():
     data = request.form.to_dict()
     url = urlparse(data['url'])
     data_url = url.scheme + "://" + url.netloc
-    # if len(data['url']) > 0:
-    #     data_url = data['url']
-    #     if data['url'][-1] == '/':
-    #         data_url = data['url'][0:-1]
-    # else:
-    #     data_url = data['url']
     print(data_url)
 
     errors = validator.validate(data)

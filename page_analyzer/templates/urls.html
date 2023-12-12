@@ -16,6 +16,8 @@
       <th>Последняя проверка</th>
       <th>Код ответа</th>
     </tr>
+    </thead>
+    <tbody>
     {% for url in urls %}
       <tr>
       <th>{{ url.id }}</th>
@@ -24,9 +26,6 @@
       <th>{{ checks.filter_by(url_id=url.id).order_by(desc).first().status_code }}</th>
     </tr>
     {% endfor %}
-    </thead>
-    <tbody>
-
     </tbody>
   </table>
 </div>
