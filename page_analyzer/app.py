@@ -78,7 +78,7 @@ def new_url():
     urls = Urls.query.order_by('created_at').all()
     for url in urls:
         if data_url == url.name:
-            flash('Страница успешно добавлена')
+            flash('Страница уже существуетв')
             return redirect(url_for('url_page', id=url.id))
 
     db.session.add(url_id)
