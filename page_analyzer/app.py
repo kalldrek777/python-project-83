@@ -90,11 +90,6 @@ def new_url():
 
 @app.route('/urls')
 def all_urls():
-    responce = requests.get('http://0.0.0.0:8000/urls')
-    soup = BeautifulSoup(responce.text, 'html.parser')
-    selector = soup.find("table", attrs={"data-test": "urls"})
-
-    status_selector = '/table[data-test="urls"] > tbody > tr > td:nth-child(4)'
     return render_template('urls.html', urls=Urls.query.order_by(desc('created_at')).all(),
                            checks=Url_Checks.query, desc=desc('created_at'), true_date=true_date
                            )
