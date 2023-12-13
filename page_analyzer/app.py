@@ -95,7 +95,7 @@ def all_urls():
                            )
 
 
-@app.route('/url/<id>')
+@app.route('/urls/<id>')
 def url_page(id):
     url = Urls.query.get(id)
     if not url:
