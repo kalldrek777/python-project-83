@@ -4,6 +4,7 @@ import sqlalchemy.schema
 from sqlalchemy import desc
 from flask import Flask, redirect, render_template, request, url_for, flash, abort
 # from validator import validate
+from dotenv import load_dotenv
 from . import validator
 from flask_sqlalchemy import SQLAlchemy
 import requests
@@ -11,12 +12,11 @@ from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 
 
-app = Flask(__name__)
-# app.secret_key = os.getenv('SECRET_KEY')
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
-app.secret_key = '_pf3or4r^x0*tvss9ihp)=bff4(dnixz!0$cc7o=)gc-4pj1w$'
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://amethyst:b1FUh1N6F8osqDDzpIIugRqbKu8vC0Jg@dpg-cldpq9tlo5ps73f2p4pg-a.oregon-postgres.render.com/database_0p5m"
+load_dotenv()
 TIMEOUT = int(os.getenv('EXTERNAL_REQUEST_TIMEOUT', 30))
+app = Flask(__name__)
+app.secret_key = os.getenv('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 db = SQLAlchemy(app)
 
 
@@ -52,8 +52,6 @@ class Url_Checks(db.Model):
 
 # with app.app_context():
     # db.drop_all()
-    # sqlalchemy.schema.DropSchema(Url_Checks, cascade=True)
-    # sqlalchemy.schema.DropSchema(Urls, cascade=)
     # db.create_all()
 
 
@@ -78,7 +76,7 @@ def new_url():
     urls = Urls.query.order_by('created_at').all()
     for url in urls:
         if data_url == url.name:
-            flash('Страница уже существуетв')
+            flash('Страница уже существует')
             return redirect(url_for('url_page', id=url.id))
 
     db.session.add(url_id)
