@@ -5,7 +5,7 @@ from sqlalchemy import desc
 from flask import Flask, redirect, render_template, request, url_for, flash, abort, get_flashed_messages
 # from validator import validate
 from dotenv import load_dotenv
-from . import validator
+from .validator import validate
 from flask_sqlalchemy import SQLAlchemy
 import requests
 from urllib.parse import urlparse
@@ -86,7 +86,7 @@ def url_add():
     url = urlparse(response['url'])
     data_url = url.scheme + "://" + url.netloc
 
-    errors = validator.validate(response)
+    errors = validate(response)
     if errors:
         flash(errors['name'])
         return render_template('index.html', errors=errors), 422
