@@ -1,16 +1,15 @@
-CREATE TABLE Urls (
-    id SERIAL PRIMARY KEY,
-    name varchar(255),
-    created_at date
-
+DROP TABLE IF EXISTS urls;
+CREATE TABLE urls (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    created_at TIMESTAMP NOT NULL
 );
-
-CREATE TABLE Url__Checks (
-    id SERIAL PRIMARY KEY,
-    url_id bigint REFERENCES urls (id),
-    status_code integer,
-    h1 varchar(255),
-    title varchar(255),
-    description text,
-    created_at date
+CREATE TABLE url_checks (
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    url_id BIGINT REFERENCES urlS(id) NOT NULL,
+    status_code INT,
+    h1 TEXT,
+    title TEXT,
+    description TEXT,
+    created_at TIMESTAMP NOT NULL
 );

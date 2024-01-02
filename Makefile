@@ -13,3 +13,8 @@ start:
 
 build:
 	build.sh
+
+coverage:
+	poetry run pytest page_analyzer
+
+check: lint test

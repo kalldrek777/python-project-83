@@ -2,6 +2,16 @@
 {% block title %}{% endblock %}
 
 {% block content %}
+{% for message in messages %}
+    {% if message=='Страница успешно добавлена' or message=='Страница успешно проверена'%}
+    <div style="margin-bottom:2rem" class="alert alert-success" role="alert">{{ message }}</div>
+    {% elif message=='Произошла ошибка при проверке' %}
+    <div style="margin-bottom:2rem" class="alert alert-danger" role="alert">{{ message }}</div>
+    {% else %}
+    <div style="margin-bottom:2rem" class="alert alert-info" role="alert">{{ message }}</div>
+    {% endif %}
+{% endfor %}
+
 <main class="flex-grow-1">
     <div class="container-lg mt-3">
       <h1>Сайты</h1>
@@ -20,10 +30,10 @@
     <tbody>
     {% for url in urls %}
     <tr>
-      <td>{{ url.id }}</td>
-      <td><a href="{{ url_for('url_page', id=url.id) }}">{{ url.name }}</a></td>
-      <td>{{ true_date(checks.filter_by(url_id=url.id).order_by(desc).first().created_at)  }}</td>
-      <td>{{ checks.filter_by(url_id=url.id).order_by(desc).first().status_code }}</td>
+      <td>{{ url['id'] }}</td>
+      <td><a href="{{ url_for('url_page', id=url.id) }}">{{ url['name'] }}</a></td>
+      <td>{{ url['last_check'] }}</td>
+      <td>{{ url['status_code'] }}</td>
     </tr>
     {% endfor %}
     </tbody>
