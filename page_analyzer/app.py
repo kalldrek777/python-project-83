@@ -1,17 +1,12 @@
 import datetime
 import os
-import sqlalchemy.schema
-from sqlalchemy import desc
 from flask import Flask, redirect, render_template, request, url_for, flash, abort, get_flashed_messages
 # from validator import validate
 from dotenv import load_dotenv
-from .validator import validate
-from flask_sqlalchemy import SQLAlchemy
-import requests
+from page_analyzer.validator import validate
 from urllib.parse import urlparse
-from bs4 import BeautifulSoup
-from .database import get_urls, get_url_by_id, get_url_by_name, get_id_url_by_name, get_name_url_by_id, get_url_checks, get_url_check_last, create_check, create_url
-from .logic_checks import check_response
+from page_analyzer.database import get_urls, get_url_by_id, get_id_url_by_name, get_name_url_by_id, get_url_checks, get_url_check_last, create_check, create_url
+from page_analyzer.logic_checks import check_response
 
 load_dotenv()
 
