@@ -56,7 +56,7 @@ def url_add():
         return render_template('index.html', errors=errors), 422
 
     urls = get_urls()
-    for url in urls:   # не видит
+    for url in urls:
         print(url['id'])
         print(data_url)
         print(get_name_url_by_id(url['id'])['name'])
