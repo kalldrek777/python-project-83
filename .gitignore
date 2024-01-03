@@ -2,4 +2,4 @@ page_analyzer/.env
 __pycache__/
 *.bak
 *.dist
-*
+*.idea
