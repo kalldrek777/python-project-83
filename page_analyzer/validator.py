@@ -1,6 +1,4 @@
-from urllib.parse import urlparse
 import validators
-from validators import ValidationError
 
 
 def validate(post):

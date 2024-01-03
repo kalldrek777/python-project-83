@@ -15,4 +15,5 @@ build:
 coverage:
 	poetry run pytest page_analyzer
 
-check: lint test
+lint:
+	poetry run flake8 page_analyzer
