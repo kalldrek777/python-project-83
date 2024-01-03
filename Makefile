@@ -12,9 +12,6 @@ start:
 build:
 	build.sh
 
-coverage:
-	poetry run pytest page_analyzer
-
 lint:
 	poetry run flake8 page_analyzer
 
