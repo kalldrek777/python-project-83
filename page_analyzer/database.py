@@ -39,7 +39,6 @@ def get_url_by_name(name):
 
 
 def get_url_by_id(id):
-    data = None
     conn = get_connection()
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         query = '''SELECT id, name, created_at

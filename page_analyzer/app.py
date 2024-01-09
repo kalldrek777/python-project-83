@@ -10,7 +10,7 @@ from page_analyzer.database import (get_urls, get_url_by_id,
                                     get_name_url_by_id, get_url_checks,
                                     get_url_check_last, create_check,
                                     create_url)
-from page_analyzer.logic_checks import check_response
+from page_analyzer.utils import check_response
 
 load_dotenv()
 
