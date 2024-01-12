@@ -31,8 +31,8 @@ def index():
 @app.get('/urls')
 def urls():
     messages = get_flashed_messages()
-    data = get_urls()
-    for url in data:
+    urls = get_urls()
+    for url in urls:
         data_check = get_url_check_last(url['id'])
         if data_check is None:
             url['last_check'] = ''
@@ -40,15 +40,14 @@ def urls():
         else:
             url['last_check'] = data_check['created_at'].date()
             url['status_code'] = data_check['status_code']
-    return render_template('urls.html', urls=data, messages=messages)
+    return render_template('urls.html', urls=urls, messages=messages)
 
 
 @app.post('/urls')
 def url_add():
     data = {}
     response = request.form.to_dict()
-    url = urlparse(response['url'])
-    data_url = url.scheme + "://" + url.netloc
+    data_url = url_parse(response)
 
     errors = validate(response)
     if errors:
@@ -57,16 +56,12 @@ def url_add():
 
     urls = get_urls()
     for url in urls:
-        print(url['id'])
-        print(data_url)
-        print(get_name_url_by_id(url['id'])['name'])
         if data_url == get_name_url_by_id(url['id'])['name']:
             flash('Страница уже существует')
             return redirect(url_for('url_page', id=url['id']))
 
-    data['name'] = data_url
-    data['created_at'] = datetime.datetime.now().date()
-    create_url(data)
+    create_url(
+        {'name': data_url, 'created_at': datetime.datetime.now().date()})
     data = get_id_url_by_name(data_url)
     flash('Страница успешно добавлена')
     return redirect(url_for('url_page', id=data['id']))
@@ -98,6 +93,12 @@ def check_url(id):
         create_check(data)
         flash('Страница успешно проверена')
     return redirect(url_for('url_page', id=data["url_id"]))
+
+
+def url_parse(response):
+    url = urlparse(response['url'])
+    data_url = url.scheme + "://" + url.netloc
+    return data_url
 
 
 if __name__ == "__main__":
