@@ -33,7 +33,7 @@ def urls():
     messages = get_flashed_messages()
     urls = get_urls(get_connection())
     for url in urls:
-        data_check = get_url_check_last(url['id'])
+        data_check = get_url_check_last(url['id'], get_connection())
         if data_check is None:
             url['last_check'] = ''
             url['status_code'] = ''
