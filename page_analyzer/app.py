@@ -9,7 +9,7 @@ from page_analyzer.database import (get_urls, get_url_by_id,
                                     get_id_url_by_name,
                                     get_name_url_by_id, get_url_checks,
                                     get_url_check_last, create_check,
-                                    create_url)
+                                    create_url, get_connection)
 from page_analyzer.utils import check_response
 
 load_dotenv()
@@ -31,7 +31,7 @@ def index():
 @app.get('/urls')
 def urls():
     messages = get_flashed_messages()
-    urls = get_urls()
+    urls = get_urls(get_connection())
     for url in urls:
         data_check = get_url_check_last(url['id'])
         if data_check is None:
@@ -54,15 +54,17 @@ def url_add():
         flash(errors['name'])
         return render_template('index.html', errors=errors), 422
 
-    urls = get_urls()
+    urls = get_urls(get_connection())
     for url in urls:
-        if data_url == get_name_url_by_id(url['id'])['name']:
+        if data_url == get_name_url_by_id(url['id'], get_connection())['name']:
             flash('Страница уже существует')
             return redirect(url_for('url_page', id=url['id']))
 
     create_url(
-        {'name': data_url, 'created_at': datetime.datetime.now().date()})
-    data = get_id_url_by_name(data_url)
+        {'name': data_url, 'created_at': datetime.datetime.now().date()},
+        get_connection()
+    )
+    data = get_id_url_by_name(data_url, get_connection())
     flash('Страница успешно добавлена')
     return redirect(url_for('url_page', id=data['id']))
 
@@ -70,10 +72,10 @@ def url_add():
 @app.get('/urls/<id>')
 def url_page(id):
     messages = get_flashed_messages()
-    url = get_url_by_id(id)
+    url = get_url_by_id(id, get_connection())
     if not url:
         return render_template('404.html'), 404
-    checks = get_url_checks(int(id))
+    checks = get_url_checks(int(id), conn=get_connection())
     return render_template('url.html', url=url, checks=checks,
                            messages=messages)
 
@@ -83,14 +85,14 @@ def check_url(id):
     data = {}
     data['url_id'] = int(id)
     data['created_at'] = datetime.datetime.now().date()
-    url = get_name_url_by_id(int(id))
+    url = get_name_url_by_id(int(id), get_connection())
 
     check = check_response(url["name"])
     if check["error"]:
         flash('Произошла ошибка при проверке')
     else:
         data.update(check)
-        create_check(data)
+        create_check(data, get_connection())
         flash('Страница успешно проверена')
     return redirect(url_for('url_page', id=data["url_id"]))
 

@@ -14,7 +14,7 @@ def get_connection():
     return psycopg2.connect(DATABASE_URL)
 
 
-def get_urls(conn=get_connection()):
+def get_urls(conn):
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         cur.execute('SELECT id, name FROM urls ORDER BY id DESC;')
         data = cur.fetchall()
@@ -22,7 +22,7 @@ def get_urls(conn=get_connection()):
     return data
 
 
-def get_url_by_name(name, conn=get_connection()):
+def get_url_by_name(name, conn):
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         query = '''SELECT id, name, created_at
                    FROM urls
@@ -34,7 +34,7 @@ def get_url_by_name(name, conn=get_connection()):
     return data
 
 
-def get_url_by_id(id, conn=get_connection()):
+def get_url_by_id(id, conn):
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         query = '''SELECT id, name, created_at
                    FROM urls
@@ -46,7 +46,7 @@ def get_url_by_id(id, conn=get_connection()):
     return data
 
 
-def get_id_url_by_name(name, conn=get_connection()):
+def get_id_url_by_name(name, conn):
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         query = '''SELECT id
                    FROM urls
@@ -58,7 +58,7 @@ def get_id_url_by_name(name, conn=get_connection()):
     return data
 
 
-def get_name_url_by_id(id, conn=get_connection()):
+def get_name_url_by_id(id, conn):
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         query = '''SELECT name
                    FROM urls
@@ -70,7 +70,7 @@ def get_name_url_by_id(id, conn=get_connection()):
     return data
 
 
-def get_url_checks(url_id, conn=get_connection()):
+def get_url_checks(url_id, conn):
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         query = '''SELECT id, url_id, status_code, h1, title,
                    description, created_at
@@ -84,7 +84,7 @@ def get_url_checks(url_id, conn=get_connection()):
     return data
 
 
-def get_url_check_last(url_id, conn=get_connection()):
+def get_url_check_last(url_id, conn):
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         query = '''SELECT status_code, created_at
                    FROM url_checks
@@ -97,7 +97,7 @@ def get_url_check_last(url_id, conn=get_connection()):
     return data
 
 
-def create_url(data, conn=get_connection()):
+def create_url(data, conn):
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         query = '''INSERT INTO urls (name, created_at)
                    VALUES (%s, %s);
@@ -107,7 +107,7 @@ def create_url(data, conn=get_connection()):
     conn.close()
 
 
-def create_check(data, conn=get_connection()):
+def create_check(data, conn):
     with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
         query = '''INSERT INTO url_checks (url_id, status_code,
                                            h1, title,
