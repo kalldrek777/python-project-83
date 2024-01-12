@@ -45,7 +45,6 @@ def urls():
 
 @app.post('/urls')
 def url_add():
-    data = {}
     response = request.form.to_dict()
     data_url = url_parse(response)
 
